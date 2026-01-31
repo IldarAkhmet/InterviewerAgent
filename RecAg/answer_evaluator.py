@@ -3,25 +3,32 @@ from agent_memory import VectorMemory
 
 from mistralai import UserMessage, SystemMessage
 
+import json
 
 def build_llm_messages(entries, last_n=3):
     messages = []
 
     for turn in entries[-last_n:]:
-        if "review" not in turn:
+        if "question" in turn:
             messages.append({
                 "role": "system",
-                "content": turn["question"]["content"]
+                "content": str(turn["question"]["content"])
             })
-        messages.append({
-            "role": "user",
-            "content": turn["answer"]["content"]
-        })
+
+        if "answer" in turn:
+            messages.append({
+                "role": "user",
+                "content": str(turn["answer"]["content"])
+            })
 
         if "review" in turn:
             messages.append({
                 "role": "system",
-                "content": turn["review"]["content"]
+                "content": json.dumps(
+                    turn["review"]["content"],
+                    ensure_ascii=False,
+                    indent=2
+                )
             })
 
     return messages
@@ -92,9 +99,9 @@ class AnswerEvaluator:
             UserMessage(
                 role="user",
                 content=(
-                    f"Candidate initial data: \n{self.initial_data}\n\n"
-                    f"Question:\n{question}\n\n"
-                    f"Candidate answer:\n{answer}\n\n"
+                    f"Candidate initial data: \n{str(self.initial_data)}\n\n"
+                    f"Question:\n{str(question)}\n\n"
+                    f"Candidate answer:\n{str(answer)}\n\n"
                     "Evaluate the answer strictly."
                 )
             )

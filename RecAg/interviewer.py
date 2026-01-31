@@ -33,14 +33,7 @@ class Interviewer:
 
             answer = input("Ответ кандидата: ")
             review = self.answer_evaluator.evaluate(question, answer)
-            try:
-                score = review["score"]
-                knowledge_gaps = review["knowledge_gaps"]
-                stop_interview = review["stop_interview"]
-            except Exception as e:
-                print(review)
-                raise e
-
+            stop_interview = review["stop_interview"]
             if stop_interview:
                 feedback = self.feedback.stop_interview("interview_log.json")
                 print(feedback)
@@ -49,6 +42,12 @@ class Interviewer:
                     json.dump(self.history_log, f, ensure_ascii=False, indent=4)
 
                 return None
+
+            try:
+                score = review["score"]
+                knowledge_gaps = review["review"]["knowledge_gaps"]
+            except Exception as e:
+                knowledge_gaps = review["knowledge_gaps"]
 
             self.memory.add_entry(
                 turn_id=idx,

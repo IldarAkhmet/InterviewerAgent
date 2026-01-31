@@ -77,7 +77,7 @@ class QuestionCreator:
         if len(last_qa) - nan_scores_cnt != 0:
             user_prompt = (
                 f"Candidate background:\n{self.initial_data}\n\n"
-                f"Review last answer:\n{last_review}\n\n"
+                f"Review last answer:\n{str(last_review)}\n\n"
                 f"Last score:\n{last_score}\n\n"
                 f"Average score:\n{avg_score}\n\n"
             )

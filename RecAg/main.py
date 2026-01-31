@@ -12,7 +12,7 @@ api_key = os.getenv("MISTRAL_API_KEY")
 client = Mistral(api_key=api_key)
 interviewer = Interviewer(
     client=client,
-    initial_data="Привет. Я Алекс, претендую на позицию Junior Backend Developer. Знаю Python, SQL и Git",
+    initial_data="Привет! Я  Senior Machine Learning Engineer. Мой стек — это Kubernetes, CSS, Blockchain",
 )
 
 interviewer.run_interview()
